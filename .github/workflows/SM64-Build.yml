@@ -58,6 +58,9 @@ jobs:
         make --jobs 4
         cd ../../..
 
+    - name: Set NDK path
+      run: echo "ndk.dir=$RUNNER_WORKSPACE/android-sdk/ndk/25.2.9519653" >> $GITHUB_WORKSPACE/gradle.properties
+
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
       
