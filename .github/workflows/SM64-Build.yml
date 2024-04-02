@@ -11,6 +11,12 @@ jobs:
     - uses: actions/checkout@v4.1.1
       with:
         submodules: 'recursive'
+        
+    - name: Copy baserom.z64
+      run: cp baserom.z64 ./app/jni/src/baserom.us.z64
+
+    - name: Run getSDL.sh
+      run: ./getSDL.sh
 
     - name: Initialize submodules
       run: git submodule update --init --recursive
@@ -29,11 +35,18 @@ jobs:
         sudo apt-get update
         sudo apt-get install make
         
+    - name: Compile with Make
+      run: |
+        cd app/jni/src
+        make --jobs 4
+        make --jobs 4
+        cd ../../..
+
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
       
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew assembleDebug
       
     - name: Upload APK
       uses: actions/upload-artifact@v2.2.3
