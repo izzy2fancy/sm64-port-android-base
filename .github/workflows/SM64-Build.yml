@@ -41,8 +41,8 @@ jobs:
       with:
        ndk-version: r26b    
 
-    - name: Print NDK directory contents
-      run: ls -l /usr/local/lib/android/sdk/ndk/
+    - name: Set NDK path
+      run: echo "ndk.dir=/usr/local/lib/android/sdk/ndk/25.2.9519653" >> $GITHUB_WORKSPACE/local.properties
           
     - name: Setup Android SDK Tools
       uses: android-actions/setup-android@v3.2.0
