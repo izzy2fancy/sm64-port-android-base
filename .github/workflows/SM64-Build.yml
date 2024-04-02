@@ -12,8 +12,8 @@ jobs:
       with:
         submodules: 'recursive'
         
-    - name: Copy baserom.z64
-      run: cp ./baserom.z64 ./app/jni/src/baserom.us.z64
+    - name: Copy baserom.us.z64
+      run: cp baserom.us.z64 ./app/jni/src/baserom.us.z64
 
     - name: Run getSDL.sh
       run: ./getSDL.sh
