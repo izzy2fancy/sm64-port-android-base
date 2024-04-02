@@ -45,6 +45,11 @@ jobs:
       uses: android-actions/setup-android@v3.2.0
       with:
        cmdline-tools-version: 11076708
+
+    - name: Install necessary dependencies
+      run: |
+       sudo apt-get update
+       sudo apt-get install make libusb-1.0-0-dev libsdl2-dev libgl1-mesa-dev
         
     - name: Compile with Make
       run: |
