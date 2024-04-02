@@ -40,6 +40,9 @@ jobs:
       uses: nttld/setup-ndk@v1.4.2
       with:
        ndk-version: r26b    
+
+    - name: Print NDK directory contents
+      run: ls -l /usr/local/lib/android/sdk/ndk/
           
     - name: Setup Android SDK Tools
       uses: android-actions/setup-android@v3.2.0
@@ -57,9 +60,6 @@ jobs:
         make --jobs 4
         make --jobs 4
         cd ../../..
-
-    - name: Set NDK path
-      run: echo "ndk.dir=$RUNNER_WORKSPACE/android-sdk/ndk/25.2.9519653" >> $GITHUB_WORKSPACE/gradle.properties
 
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
