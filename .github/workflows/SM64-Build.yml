@@ -34,6 +34,17 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install make
+
+    # Add the NDK download step here
+    - name: Setup Android NDK
+      uses: nttld/setup-ndk@v1.4.2
+      with:
+       ndk-version: r26b    
+          
+    - name: Setup Android SDK Tools
+      uses: android-actions/setup-android@v3.2.0
+      with:
+       cmdline-tools-version: 11076708
         
     - name: Compile with Make
       run: |
