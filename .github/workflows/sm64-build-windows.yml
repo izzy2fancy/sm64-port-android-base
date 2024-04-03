@@ -38,7 +38,7 @@ jobs:
 
     - name: Make Audio File
       run: |
-       make -j $(nproc) -C tools/audiofile
+       make -j $(nproc) -C app/jni/src/tools/audiofile
       
     - name: Copy baserom
       run: |
