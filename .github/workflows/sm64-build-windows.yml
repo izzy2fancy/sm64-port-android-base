@@ -33,11 +33,6 @@ jobs:
         components: 'build-tools;28.0.3,platform-tools,tools'
         ndk-version: '21.0.6113669'
         
-    - name: Grant execute permission to getSDL.sh
-      run: |
-        Get-ChildItem -Path ./ -Recurse -Filter "getSDL.sh" | ForEach-Object { $_.IsReadOnly = $false }
-        Get-ChildItem -Path ./ -Recurse -Filter "getSDL.sh" | ForEach-Object { $_.Attributes -= 'ReadOnly' }
-      
     - name: Run getSDL.sh
       run: ./getSDL.sh
       
