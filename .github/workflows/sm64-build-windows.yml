@@ -25,6 +25,10 @@ jobs:
         components: 'build-tools;28.0.3,platform-tools,tools'
         ndk-version: '21.0.6113669'
 
+    - name: Install SDL2
+      run: |
+        choco install sdl2
+
     - name: Install MinGW
       run: |
         choco install mingw
