@@ -54,3 +54,9 @@ jobs:
     - name: Perform Android build (using cmd.exe)
       run: |
        cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && gradlew.bat assembleDebug"
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: sm64-debug-apk
+        path: D:\a\sm64-port-android-base\sm64-port-android-base\app\build\outputs\apk\debug\*.apk
