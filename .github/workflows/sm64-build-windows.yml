@@ -51,8 +51,6 @@ jobs:
         make --jobs 4
         cd ../../..
 
-     
     - name: Perform Android build
       run: |
-       cd \
-       gradlew.bat assembleDebug
+       cd \ && gradlew.bat assembleDebug
