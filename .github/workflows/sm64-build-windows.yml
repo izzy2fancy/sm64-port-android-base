@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  job1:
     runs-on: windows-latest
     defaults:
       run:
@@ -51,6 +51,10 @@ jobs:
           make --jobs 4
           cd ../../..
 
+  job2:
+    needs: job1
+    runs-on: windows-latest
+    steps:
       - name: Perform Android build
         run: cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
 
