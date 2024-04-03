@@ -6,58 +6,62 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    defaults:
-      run:
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          submodules: 'recursive'
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        
+      - name: Fetch Dependencies
+        run: pacman -S --noconfirm unzip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3
         shell: msys2 {0}
         
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4.1.1
-      with:
-        submodules: 'recursive'
-
-    - uses: msys2/setup-msys2@v2
-    
-    - name: Fetch Dependencies
-      run: pacman -S --noconfirm unzip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3
-      
-    - name: Install Java JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '17'
-      
-    - name: Install Android SDK/NDK
-      uses: android-actions/setup-android@v2
-      with:
-        components: 'build-tools;28.0.3,platform-tools,tools'
-        ndk-version: '21.0.6113669'
+      - name: Install Java JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+        shell: msys2 {0}
         
-    - name: Run getSDL.sh
-      run: ./getSDL.sh
+      - name: Install Android SDK/NDK
+        uses: android-actions/setup-android@v2
+        with:
+          components: 'build-tools;28.0.3,platform-tools,tools'
+          ndk-version: '21.0.6113669'
+          
+      - name: Run getSDL.sh
+        run: ./getSDL.sh
+        shell: msys2 {0}
 
-    - name: Make Audio File
-      run: |
-       make -j $(nproc) -C app/jni/src/tools/audiofile
-      
-    - name: Copy baserom
-      run: |
-       cp baserom.us.z64 ./app/jni/src/baserom.us.z64
-      
-    - name: Perform native build
-      run: |
-        cd app/jni/src
-        make --jobs 4
-        make --jobs 4
-        cd ../../..
+      - name: Make Audio File
+        run: |
+          make -j $(nproc) -C app/jni/src/tools/audiofile
+        shell: msys2 {0}
+        
+      - name: Copy baserom
+        run: |
+          cp baserom.us.z64 ./app/jni/src/baserom.us.z64
+        shell: msys2 {0}
+        
+      - name: Perform native build
+        run: |
+          cd app/jni/src
+          make --jobs 4
+          make --jobs 4
+          cd ../../..
+        shell: msys2 {0}
 
-    - name: Perform Android build
-      run: |
-       echo "Current directory: $(pwd)"
-       cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
+      - name: Perform Android build
+        run: |
+          echo "Current directory: $(pwd)"
+          cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
 
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: sm64-debug-apk
-        path: D:\a\sm64-port-android-base\sm64-port-android-base\app\build\outputs\apk\debug\*.apk
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: sm64-debug-apk
+          path: D:\a\sm64-port-android-base\sm64-port-android-base\app\build\outputs\apk\debug\*.apk
