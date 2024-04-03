@@ -6,26 +6,23 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
 
-      - name: Setup MSYS2
-        uses: msys2/setup-msys2@v2
-        
+      - uses: msys2/setup-msys2@v2
+      
       - name: Fetch Dependencies
         run: pacman -S --noconfirm unzip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3
-        shell: msys2 {0}
         
       - name: Install Java JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '17'
-        shell: msys2 {0}
         
       - name: Install Android SDK/NDK
         uses: android-actions/setup-android@v2
@@ -35,25 +32,21 @@ jobs:
           
       - name: Run getSDL.sh
         run: ./getSDL.sh
-        shell: msys2 {0}
 
       - name: Make Audio File
         run: |
           make -j $(nproc) -C app/jni/src/tools/audiofile
-        shell: msys2 {0}
-        
+      
       - name: Copy baserom
         run: |
           cp baserom.us.z64 ./app/jni/src/baserom.us.z64
-        shell: msys2 {0}
-        
+      
       - name: Perform native build
         run: |
           cd app/jni/src
           make --jobs 4
           make --jobs 4
           cd ../../..
-        shell: msys2 {0}
 
       - name: Perform Android build
         run: |
