@@ -56,7 +56,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Perform Android build
-        run: cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
+        run: gradlew.bat assembleDebug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v2
