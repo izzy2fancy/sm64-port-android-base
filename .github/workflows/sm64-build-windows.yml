@@ -30,7 +30,7 @@ jobs:
        cp baserom.us.z64 ./app/jni/src/baserom.us.z64
       
     - name: Get SDL sources
-      run: ./sm64-port-android-base/getSDL.sh
+      run: ./getSDL.sh
       
     - name: Perform native build
       run: |
