@@ -6,12 +6,20 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
+    defaults:
+      run:
+        shell: msys2 {0}
+        
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4.1.1
       with:
         submodules: 'recursive'
+
+    - uses: msys2/setup-msys2@v2
+    
+    - name: Fetch Dependencies
+      run: pacman -S --noconfirm unzip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3
       
     - name: Install Java JDK
       uses: actions/setup-java@v2
@@ -24,10 +32,6 @@ jobs:
       with:
         components: 'build-tools;28.0.3,platform-tools,tools'
         ndk-version: '21.0.6113669'
-        
-    - name: Install MinGW
-      run: |
-        choco install mingw
         
     - name: Grant execute permission to getSDL.sh
       run: |
