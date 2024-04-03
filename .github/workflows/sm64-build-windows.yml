@@ -51,10 +51,6 @@ jobs:
           make --jobs 4
           cd ../../..
 
-  job2:
-    needs: job1
-    runs-on: windows-latest
-    steps:
       - name: Perform Android build
         run: gradlew.bat assembleDebug
 
