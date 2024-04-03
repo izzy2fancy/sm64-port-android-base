@@ -56,6 +56,7 @@ jobs:
           make --jobs 4
           cd ../../..
       - name: Perform Android build (using cmd.exe)
+        shell: cmd
         run: cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
 
       - name: Upload APK artifact
