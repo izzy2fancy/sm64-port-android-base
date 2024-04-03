@@ -9,7 +9,9 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4.1.1
+      with:
+        submodules: 'recursive'
       
     - name: Install Java JDK
       uses: actions/setup-java@v2
