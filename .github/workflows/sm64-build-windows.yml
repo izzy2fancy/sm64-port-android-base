@@ -35,6 +35,10 @@ jobs:
         
     - name: Run getSDL.sh
       run: ./getSDL.sh
+
+    - name: Make Audio File
+      run: |
+       make -j $(nproc) -C tools/audiofile
       
     - name: Copy baserom
       run: |
