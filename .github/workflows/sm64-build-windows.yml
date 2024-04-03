@@ -54,5 +54,5 @@ jobs:
      
     - name: Perform Android build
       run: |
-       cd  sm64-port-android-base
+       cd \
        gradlew.bat assembleDebug
