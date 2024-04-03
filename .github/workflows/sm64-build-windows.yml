@@ -34,7 +34,7 @@ jobs:
       
     - name: Perform native build
       run: |
-        cd sm64-port-android-base/app/jni/src
+        cd app/jni/src
         make --jobs 4
         make --jobs 4
         cd ../../..
