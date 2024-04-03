@@ -6,6 +6,9 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
     
     steps:
       - name: Checkout repository
@@ -49,9 +52,7 @@ jobs:
           cd ../../..
 
       - name: Perform Android build
-        run: |
-          echo "Current directory: $(pwd)"
-          cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
+        run: cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v2
