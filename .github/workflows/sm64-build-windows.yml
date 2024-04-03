@@ -24,24 +24,22 @@ jobs:
       with:
         components: 'build-tools;28.0.3,platform-tools,tools'
         ndk-version: '21.0.6113669'
-      
-    - name: Set up SDL2
-      run: |
-        curl -LO https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
-        Expand-Archive SDL2-devel-2.0.14-VC.zip -DestinationPath "C:\SDL2"
-        echo "::add-path::C:\SDL2\SDL2-2.0.14\lib\x64"
-        echo "::add-path::C:\SDL2\SDL2-2.0.14\include"
         
     - name: Install MinGW
       run: |
         choco install mingw
         
+    - name: Grant execute permission to getSDL.sh
+      run: |
+        Get-ChildItem -Path ./ -Recurse -Filter "getSDL.sh" | ForEach-Object { $_.IsReadOnly = $false }
+        Get-ChildItem -Path ./ -Recurse -Filter "getSDL.sh" | ForEach-Object { $_.Attributes -= 'ReadOnly' }
+      
+    - name: Run getSDL.sh
+      run: ./getSDL.sh
+      
     - name: Copy baserom
       run: |
        cp baserom.us.z64 ./app/jni/src/baserom.us.z64
-      
-    - name: Get SDL sources
-      run: ./getSDL.sh
       
     - name: Perform native build
       run: |
