@@ -23,10 +23,9 @@ jobs:
         components: 'build-tools;28.0.3,platform-tools,tools'
         ndk-version: '21.0.6113669'
       
-    - name: Clone repository and copy baserom
+    - name: Copy baserom
       run: |
-        git clone --recursive https://github.com/VDavid003/sm64-port-android-base --branch sm64ex_nightly
-        cp baserom.us.z64 ./sm64-port-android-base/app/jni/src/baserom.us.z64
+       cp baserom.us.z64 ./sm64-port-android-base/app/jni/src/baserom.us.z64
       
     - name: Get SDL sources
       run: ./sm64-port-android-base/getSDL.sh
