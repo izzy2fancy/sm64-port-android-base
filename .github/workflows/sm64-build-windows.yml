@@ -51,5 +51,5 @@ jobs:
         make --jobs 4
         cd ../../..
 
-    - name: Perform Android build
-      run: gradlew.bat assembleDebug
+    - name: Perform Android build (using cmd.exe)
+      run: cmd.exe /c gradlew.bat assembleDebug
