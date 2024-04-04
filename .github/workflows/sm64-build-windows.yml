@@ -6,10 +6,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -21,17 +17,23 @@ jobs:
       - name: Fetch Dependencies
         run: pacman -S --noconfirm unzip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3
         
-      - name: Install Java JDK
-        uses: actions/setup-java@v4.2.1
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME }}
+      - name: Set up Java JDK
+        run: |
+          mkdir -p "C:\hostedtoolcache\windows\Java_Adopt_jdk\17.0.10-7\x64"
+          curl -L https://download.java.net/java/GA/jdk17/0d483333a00540d886896bac774ff48b/35/GPL/openjdk-17_windows-x64_bin.zip -o jdk.zip
+          tar -xf jdk.zip -C "C:\hostedtoolcache\windows\Java_Adopt_jdk\17.0.10-7\x64"
+          rm jdk.zip
+          echo "JAVA_HOME=C:\hostedtoolcache\windows\Java_Adopt_jdk\17.0.10-7\x64" >> $GITHUB_ENV
 
-      - name: Install Android SDK/NDK
-        uses: android-actions/setup-android@v3.2.0
-        
+      - name: Set up Android SDK/NDK
+        run: |
+          mkdir -p "C:\Android\android-sdk"
+          curl -L https://dl.google.com/android/repository/commandlinetools-win-7302050_latest.zip -o sdk.zip
+          unzip -q sdk.zip -d "C:\Android\android-sdk"
+          rm sdk.zip
+          echo "ANDROID_HOME=C:\Android\android-sdk" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=C:\Android\android-sdk" >> $GITHUB_ENV
+          
       - name: Run getSDL.sh
         run: ./getSDL.sh
 
