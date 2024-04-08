@@ -22,7 +22,7 @@ jobs:
         run: docker build . -t sm64_android
 
       - name: Copy baserom
-        run: cp baserom.z64 ./app/jni/src/baserom.us.z64
+        run: cp baserom.us.z64 ./app/jni/src/baserom.us.z64
 
       - name: Setup symlinks for SDL
         run: |
