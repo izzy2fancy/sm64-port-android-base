@@ -24,13 +24,13 @@ jobs:
 
       - name: Setup symlinks for SDL
         run: |
-          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "ln -nsf /SDL2-2.0.12/src /sm64/app/jni/SDL/src"
-          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "ln -nsf /SDL2-2.0.12/include /sm64/app/jni/SDL/include"
+          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "ln -nsf /SDL2-2.0.12/src /app/jni/SDL/src"
+          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "ln -nsf /SDL2-2.0.12/include /app/jni/SDL/include"
 
       - name: Perform native build
         run: |
-          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd app/jni/src && make --jobs 4"
-          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd app/jni/src && make --jobs 4"
+          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd /app/jni/src && make --jobs 4"
+          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd /app/jni/src && make --jobs 4"
 
       - name: Perform Android build
         run: docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "./gradlew assembleDebug"
