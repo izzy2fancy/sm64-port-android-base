@@ -29,8 +29,8 @@ jobs:
 
       - name: Perform native build
         run: |
-          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd /app/jni/src && make --jobs 4"
-          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd /app/jni/src && make --jobs 4"
+          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd app/jni/src && make --jobs 4"
+          docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "cd app/jni/src && make --jobs 4"
 
       - name: Perform Android build
         run: docker run --rm -v ${{ github.workspace }}:/sm64 sm64_android sh -c "./gradlew assembleDebug"
