@@ -1,9 +1,7 @@
 name: Build Super Mario 64 Android Port
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
