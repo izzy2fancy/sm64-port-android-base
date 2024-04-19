@@ -24,7 +24,7 @@ jobs:
       - name: Install Java JDK
         uses: actions/setup-java@v4.2.1
         with:
-          distribution: 'adopt'
+          distribution: 'openjdk'
           java-version: '11'
         env:
           JAVA_HOME: ${{ env.JAVA_HOME }}
