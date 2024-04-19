@@ -1,4 +1,4 @@
-name: Build SM64 Windows Android APK
+name: Build SM64 Android APK
 
 on:
   workflow_dispatch:
