@@ -1,0 +1,61 @@
+name: Build SM64 Windows Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          submodules: 'recursive'
+
+      - uses: msys2/setup-msys2@v2
+      
+      - name: Fetch Dependencies
+        run: pacman -S --noconfirm unzip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3
+        
+      - name: Install Java JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME }}
+
+      - name: Install Android SDK/NDK
+        uses: android-actions/setup-android@v3.2.0
+        
+      - name: Run getSDL.sh
+        run: ./getSDL.sh
+
+      - name: Make Audio File
+        run: |
+          make -j $(nproc) -C app/jni/src/tools/audiofile
+      
+      - name: Copy baserom
+        run: |
+          cp baserom.us.z64 ./app/jni/src/baserom.us.z64
+      
+      - name: Perform native build
+        run: |
+          cd app/jni/src
+          make --jobs 4
+          make --jobs 4
+          cd ../../..
+          
+      - name: Perform Android build (using cmd.exe)
+        shell: cmd
+        run: cmd.exe /c "cd D:\a\sm64-port-android-base\sm64-port-android-base && echo 'Executing gradlew.bat' && gradlew.bat assembleDebug && echo 'Gradle build completed'"
+        
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: sm64-debug-apk
+          path: D:\a\sm64-port-android-base\sm64-port-android-base\app\build\outputs\apk\debug\*.apk
