@@ -23,9 +23,6 @@ jobs:
 
       - name: Install Android SDK/NDK
         uses: android-actions/setup-android@v3.2.0
-        
-      - name: Run getSDL.sh
-        run: ./getSDL.sh
 
       - name: Make Audio File
         run: |
@@ -34,7 +31,10 @@ jobs:
       - name: Copy baserom
         run: |
           cp baserom.us.z64 ./app/jni/src/baserom.us.z64
-      
+     
+      - name: Run getSDL.sh
+        run: ./getSDL.sh
+        
       - name: Perform native build
         run: |
           cd app/jni/src
